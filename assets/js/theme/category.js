@@ -46,6 +46,51 @@ export default class Category extends CatalogPage {
         $('a.reset-btn').on('click', () => this.setLiveRegionsAttributes($('span.reset-message'), 'status', 'polite'));
 
         this.ariaNotifyNoProducts();
+
+         // Add code to handle the "Add All To Cart" button here
+    const addAllToCartButton = document.getElementById('addAllToCart');
+
+    if (addAllToCartButton) { // Check if the button exists on the page
+        addAllToCartButton.addEventListener('click', () => {
+            const productCards = document.querySelectorAll('.card');
+
+            productCards.forEach(card => {
+                const productId = card.getAttribute('data-entity-id'); // Use 'data-entity-id' instead of 'data-product-id'
+                console.log(`Adding product with ID: ${productId} to cart`); // Log the productId being added
+                const cartItem = {
+                    lineItems: [{
+                        quantity: 1,
+                        productId: parseInt(productId, 10)
+                    }]
+                };
+
+                fetch('/api/storefront/carts', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(cartItem)
+                })
+                .then(response => {
+                    if (!response.ok) {
+                        console.error(`Failed to add product with ID: ${productId} to cart. Status: ${response.status}`);
+                        return response.text(); // Return the response text to the next .then()
+                    }
+                })
+                .then(responseText => {
+                    if (responseText) {
+                        console.error(`Server response: ${responseText}`);
+                    }
+                })
+                .catch(error => {
+                    console.error(`Error adding product with ID: ${productId} to cart: ${error}`);
+                });
+            });
+
+            alert('All products have been added to your cart!');
+        });
+    }
+
     }
 
     ariaNotifyNoProducts() {
@@ -101,4 +146,30 @@ export default class Category extends CatalogPage {
             },
         });
     }
+
+
+
+
+
+   
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 }

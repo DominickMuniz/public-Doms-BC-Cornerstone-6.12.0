@@ -117,3 +117,30 @@
 .card-figure:hover .card-image.secondary-image {
     opacity: 1;
 }
+
+
+
+
+
+
+// Custom CSS 
+// -----------------------------------------------------------------------------
+//
+// 1. Style the 'Add All To Cart Button on the Category Page. 
+//
+// -----------------------------------------------------------------------------
+
+
+
+
+.add-all-to-cart-container {
+    margin-bottom: 20px;
+}
+
+#addAllToCart {
+    background-color: #007dbf;
+    color: #ffffff;
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+}
