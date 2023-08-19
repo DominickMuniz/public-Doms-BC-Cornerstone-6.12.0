@@ -82,14 +82,36 @@ export default class Category extends CatalogPage {
     
         const handleAddAllToCart = (cartId) => {
             const productCards = document.querySelectorAll('.card');
+            const cartItems = {
+                lineItems: []
+            };
     
             productCards.forEach(card => {
                 const productId = card.getAttribute('data-entity-id');
-                addCartItem(cartId, productId);
+                cartItems.lineItems.push({
+                    quantity: 1,
+                    productId: parseInt(productId, 10)
+                });
             });
+    
+            createCart(`/api/storefront/carts/${cartId}/items`, cartItems);
     
             alert('All products have been added to your cart!');
         };
+    
+        function createCart(route, cartItems) {
+            return fetch(route, {
+                method: "POST",
+                credentials: "same-origin",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(cartItems),
+            })
+            .then(response => response.json())
+            .then(result => console.log(result))
+            .catch(error => console.error(error));
+        }
     
         if (addAllToCartButton) {
             addAllToCartButton.addEventListener('click', () => {
@@ -104,13 +126,20 @@ export default class Category extends CatalogPage {
                         handleAddAllToCart(carts[0].id);
                     } else {
                         // Create new cart
-                        fetch('/api/storefront/carts', {
-                            method: 'POST',
-                            headers: {
-                                'Content-Type': 'application/json'
-                            }
-                        })
-                        .then(response => response.json())
+                        const newCartItems = {
+                            lineItems: []
+                        };
+    
+                        const productCards = document.querySelectorAll('.card');
+                        productCards.forEach(card => {
+                            const productId = card.getAttribute('data-entity-id');
+                            newCartItems.lineItems.push({
+                                quantity: 1,
+                                productId: parseInt(productId, 10)
+                            });
+                        });
+    
+                        createCart('/api/storefront/carts', newCartItems)
                         .then(newCart => {
                             handleAddAllToCart(newCart.id);
                         });
