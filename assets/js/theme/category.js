@@ -29,70 +29,102 @@ export default class Category extends CatalogPage {
 
     onReady() {
         this.arrangeFocusOnSortBy();
-
+    
         $('[data-button-type="add-cart"]').on('click', (e) => this.setLiveRegionAttributes($(e.currentTarget).next(), 'status', 'polite'));
-
+    
         this.makeShopByPriceFilterAccessible();
-
+    
         compareProducts(this.context);
-
+    
         if ($('#facetedSearch').length > 0) {
             this.initFacetedSearch();
         } else {
             this.onSortBySubmit = this.onSortBySubmit.bind(this);
             hooks.on('sortBy-submitted', this.onSortBySubmit);
         }
-
+    
         $('a.reset-btn').on('click', () => this.setLiveRegionsAttributes($('span.reset-message'), 'status', 'polite'));
-
+    
         this.ariaNotifyNoProducts();
-
-         // Add code to handle the "Add All To Cart" button here
-    const addAllToCartButton = document.getElementById('addAllToCart');
-
-    if (addAllToCartButton) { // Check if the button exists on the page
-        addAllToCartButton.addEventListener('click', () => {
+    
+        const addAllToCartButton = document.getElementById('addAllToCart');
+    
+        const addCartItem = (cartId, productId) => {
+            const cartItem = {
+                lineItems: [{
+                    quantity: 1,
+                    productId: parseInt(productId, 10)
+                }]
+            };
+    
+            fetch(`/api/storefront/carts/${cartId}/items`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(cartItem)
+            })
+            .then(response => {
+                if (!response.ok) {
+                    console.error(`Failed to add product with ID: ${productId} to cart. Status: ${response.status}`);
+                    return response.text();
+                }
+            })
+            .then(responseText => {
+                if (responseText) {
+                    console.error(`Server response: ${responseText}`);
+                }
+            })
+            .catch(error => {
+                console.error(`Error adding product with ID: ${productId} to cart: ${error}`);
+            });
+        };
+    
+        const handleAddAllToCart = (cartId) => {
             const productCards = document.querySelectorAll('.card');
-
+    
             productCards.forEach(card => {
-                const productId = card.getAttribute('data-entity-id'); // Use 'data-entity-id' instead of 'data-product-id'
-                console.log(`Adding product with ID: ${productId} to cart`); // Log the productId being added
-                const cartItem = {
-                    lineItems: [{
-                        quantity: 1,
-                        productId: parseInt(productId, 10)
-                    }]
-                };
-
+                const productId = card.getAttribute('data-entity-id');
+                addCartItem(cartId, productId);
+            });
+    
+            alert('All products have been added to your cart!');
+        };
+    
+        if (addAllToCartButton) {
+            addAllToCartButton.addEventListener('click', () => {
                 fetch('/api/storefront/carts', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify(cartItem)
+                    method: 'GET',
+                    credentials: 'same-origin'
                 })
-                .then(response => {
-                    if (!response.ok) {
-                        console.error(`Failed to add product with ID: ${productId} to cart. Status: ${response.status}`);
-                        return response.text(); // Return the response text to the next .then()
-                    }
-                })
-                .then(responseText => {
-                    if (responseText) {
-                        console.error(`Server response: ${responseText}`);
+                .then(response => response.json())
+                .then(carts => {
+                    if (carts.length > 0) {
+                        // Use existing cart
+                        handleAddAllToCart(carts[0].id);
+                    } else {
+                        // Create new cart
+                        fetch('/api/storefront/carts', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            }
+                        })
+                        .then(response => response.json())
+                        .then(newCart => {
+                            handleAddAllToCart(newCart.id);
+                        });
                     }
                 })
                 .catch(error => {
-                    console.error(`Error adding product with ID: ${productId} to cart: ${error}`);
+                    console.error(`Error getting or creating cart: ${error}`);
                 });
             });
-
-            alert('All products have been added to your cart!');
-        });
+        }
     }
 
-    }
 
+    
     ariaNotifyNoProducts() {
         const $noProductsMessage = $('[data-no-products-notification]');
         if ($noProductsMessage.length) {
