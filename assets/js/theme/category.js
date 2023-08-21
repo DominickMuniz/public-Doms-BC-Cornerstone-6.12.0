@@ -156,7 +156,7 @@ export default class Category extends CatalogPage {
 
 
 
-// DELETE A CART ITEM - helper function
+
 // DELETE A CART ITEM - helper function
 function deleteCartItem(routeStart, cartId, itemId) {
     var route = routeStart + cartId + '/items/' + itemId;
@@ -167,16 +167,10 @@ function deleteCartItem(routeStart, cartId, itemId) {
         "Content-Type": "application/json",
       }
     })
-    .then(response => {
-      if(response.headers.get("Content-Type") === "application/json") {
-        return response.json();
-      } else {
-        return {}; // Return an empty object if the response isn't JSON
-      }
-    })
+    .then(response => response.json())
     .then(result => console.log(result))
     .catch(error => console.error(error));
-  }
+  };
 
 
 
