@@ -169,6 +169,19 @@ export default class Category extends CatalogPage {
                 }
                 location.reload(); // Refresh the page
             }
+
+            async function updateDeleteButtonVisibility() {
+                try {
+                    const cartData = await getCart('/api/storefront/carts?include=lineItems.digitalItems.options,lineItems.physicalItems.options');
+                    if (cartData.length > 0 && cartData[0].lineItems.physicalItems.length > 0) {
+                        deleteAllFromCartButton.style.display = "block"; // Show the button
+                    } else {
+                        deleteAllFromCartButton.style.display = "none"; // Hide the button
+                    }
+                } catch (error) {
+                    console.error('Error updating delete button visibility:', error);
+                }
+            }
             
             const deleteAllFromCartButton = document.getElementById('deleteAllFromCart');
             
@@ -187,6 +200,9 @@ export default class Category extends CatalogPage {
                         console.error('Error removing items from cart:', error);
                     }
                 });
+                updateDeleteButtonVisibility(); // Update the visibility of the delete button on page load
+
+
             }
             
     }
