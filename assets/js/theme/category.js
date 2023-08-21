@@ -183,12 +183,6 @@ export default class Category extends CatalogPage {
 
 
 
-
-
-
-
-
-
           const addAllToCartButton = document.getElementById('addAllToCart');
 
           const handleAddAllToCart = (cartId) => {
@@ -271,32 +265,11 @@ export default class Category extends CatalogPage {
             }
           });
         }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     }
     
   
 
-
-
-
-
-    
-
-
-    
+ 
     ariaNotifyNoProducts() {
         const $noProductsMessage = $('[data-no-products-notification]');
         if ($noProductsMessage.length) {
