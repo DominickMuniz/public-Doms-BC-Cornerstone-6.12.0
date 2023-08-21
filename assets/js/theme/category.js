@@ -213,21 +213,26 @@ export default class Category extends CatalogPage {
           const deleteAllFromCartButton = document.getElementById('deleteAllFromCart');
       
           if (deleteAllFromCartButton) {
-              deleteAllFromCartButton.addEventListener('click', function() {
-                  getCart('/api/storefront/carts?include=lineItems.digitalItems.options,lineItems.physicalItems.options')
-                      .then(cartData => {
-                          if (cartData.length > 0) {
-                              const cartId = cartData[0].id;
-                              const physicalItems = cartData[0].lineItems.physicalItems;
-                              const itemIds = physicalItems.map(item => item.id);
-                              itemIds.forEach(itemId => {
-                                  deleteCartItem('/api/storefront/carts/', cartId, itemId);
-                              });
-                              alert('All items have been removed from your cart!');
-                          }
-                      });
-              });
-          }
+            deleteAllFromCartButton.addEventListener('click', function() {
+                getCart('/api/storefront/carts?include=lineItems.digitalItems.options,lineItems.physicalItems.options')
+                    .then(cartData => {
+                        if (cartData && typeof cartData === 'object' && cartData.id && cartData.lineItems && cartData.lineItems.physicalItems) {
+                            const cartId = cartData.id;
+                            const physicalItems = cartData.lineItems.physicalItems;
+                            const itemIds = physicalItems.map(item => item.id);
+                            itemIds.forEach(itemId => {
+                                deleteCartItem('/api/storefront/carts/', cartId, itemId);
+                            });
+                            alert('All items have been removed from your cart!');
+                        } else {
+                            throw new Error('Invalid cart data format.');
+                        }
+                    })
+                    .catch(error => {
+                        console.error(`Error removing items from cart: ${error}`);
+                    });
+            });
+        }
 
 
 
