@@ -28,3 +28,11 @@ When a customer is logged in, a banner is displayed at the top of any category p
 ## Getting Started
 
 To view the customizations in action, visit [https://dominick-muniz-f3.mybigcommerce.com/special-items/]. Use this code to enter the website [Preview Code: mfab8jtwqz] You will need to create a customer account to see the customer banner feature.
+
+
+## Images 
+
+![Screenshot of the feature](screenshot1.png)
+
+
+![Screenshot of the feature](screenshot2.png)
