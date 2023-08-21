@@ -83,7 +83,7 @@ export default class Category extends CatalogPage {
 
         const { customer } = this.context;
             if (customer) {
-                console.log('Customer object:', customer);
+                console.log('Customer object:', { customer } );
             }
 
 
