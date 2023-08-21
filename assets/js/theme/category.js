@@ -98,7 +98,7 @@ export default class Category extends CatalogPage {
 
 
 
-        // Create a cart helper function
+        // CREATE a cart helper function
         function createCart(route, cartItems) {
             return fetch(route, {
               method: "POST",
@@ -107,6 +107,23 @@ export default class Category extends CatalogPage {
                 "Content-Type": "application/json"
               },
               body: JSON.stringify(cartItems),
+            })
+            .then(response => response.json())
+            .then(result => console.log(result))
+            .catch(error => console.error(error));
+          };
+
+
+
+
+
+
+          // GET a cart helper function
+
+          function getCart(route) {
+            return fetch(route, {
+              method: "GET",
+              credentials: "same-origin"
             })
             .then(response => response.json())
             .then(result => console.log(result))
