@@ -157,19 +157,26 @@ export default class Category extends CatalogPage {
 
 
 // DELETE A CART ITEM - helper function
-          function deleteCartItem(routeStart, cartId, itemId) {
-            var route = routeStart + cartId + '/items/' + itemId;
-            return fetch(route, {
-              method: "DELETE",
-              credentials: "same-origin",
-              headers: {
-                "Content-Type": "application/json",
-              }
-            })
-            .then(response => response.json())
-            .then(result => console.log(result))
-            .catch(error => console.error(error));
-          };
+// DELETE A CART ITEM - helper function
+function deleteCartItem(routeStart, cartId, itemId) {
+    var route = routeStart + cartId + '/items/' + itemId;
+    return fetch(route, {
+      method: "DELETE",
+      credentials: "same-origin",
+      headers: {
+        "Content-Type": "application/json",
+      }
+    })
+    .then(response => {
+      if(response.headers.get("Content-Type") === "application/json") {
+        return response.json();
+      } else {
+        return {}; // Return an empty object if the response isn't JSON
+      }
+    })
+    .then(result => console.log(result))
+    .catch(error => console.error(error));
+  }
 
 
 
