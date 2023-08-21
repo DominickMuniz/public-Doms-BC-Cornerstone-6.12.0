@@ -236,29 +236,29 @@ function deleteCartItem(routeStart, cartId, itemId) {
 
           const deleteAllFromCartButton = document.getElementById('deleteAllFromCart');
 
-if (deleteAllFromCartButton) {
-  deleteAllFromCartButton.addEventListener('click', async function() {
-    try {
-      const cartData = await getCart('/api/storefront/carts?include=lineItems.digitalItems.options,lineItems.physicalItems.options');
-      if (cartData.length > 0) {
-        const cartId = cartData[0].id;
-        const physicalItems = cartData[0].lineItems.physicalItems;
-        const itemIds = physicalItems.map(item => item.id);
-        
-        // Instead of looping through itemIds and calling deleteCartItem individually, 
-        // we're going to use Promise.all to perform all the deletions concurrently.
-        const deletePromises = itemIds.map(itemId => deleteCartItem('/api/storefront/carts/', cartId, itemId));
-        
-        // Await all deleteCartItem calls to finish
-        await Promise.all(deletePromises);
-        
-        alert('All items have been removed from your cart!');
-      }
-    } catch (error) {
-      console.error('Error removing items from cart:', error);
-    }
-  });
-}
+            if (deleteAllFromCartButton) {
+            deleteAllFromCartButton.addEventListener('click', async function() {
+                try {
+                const cartData = await getCart('/api/storefront/carts?include=lineItems.digitalItems.options,lineItems.physicalItems.options');
+                if (cartData.length > 0) {
+                    const cartId = cartData[0].id;
+                    const physicalItems = cartData[0].lineItems.physicalItems;
+                    const itemIds = physicalItems.map(item => item.id);
+                    
+                    // Instead of looping through itemIds and calling deleteCartItem individually, 
+                    // we're going to use Promise.all to perform all the deletions concurrently.
+                    const deletePromises = itemIds.map(itemId => deleteCartItem('/api/storefront/carts/', cartId, itemId));
+                    
+                    // Await all deleteCartItem calls to finish
+                    await Promise.all(deletePromises);
+                    
+                    alert('All items have been removed from your cart!');
+                }
+                } catch (error) {
+                console.error('Error removing items from cart:', error);
+                }
+            });
+            }
 
 
 
