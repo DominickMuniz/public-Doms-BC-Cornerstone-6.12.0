@@ -188,58 +188,76 @@ export default class Category extends CatalogPage {
           
           const addAllToCartButton = document.getElementById('addAllToCart');
 
-          const handleAddAllToCart = (cartId) => {
-              const productCards = document.querySelectorAll('.card');
-              const cartItems = {
-                  lineItems: Array.from(productCards).map(card => ({
-                      quantity: 1,
-                      productId: parseInt(card.getAttribute('data-entity-id'), 10)
-                  }))
-              };
-              addCartItem('/api/storefront/carts/', cartId, cartItems)
-                  .then(() => alert('All products have been added to your cart!'));
-          };
-      
-          if (addAllToCartButton) {
-              addAllToCartButton.addEventListener('click', () => {
-                  getCart('/api/storefront/carts')
-                      .then(carts => {
-                          if (carts.length > 0) {
-                              handleAddAllToCart(carts[0].id);
-                          } else {
-                              createCart('/api/storefront/carts', { lineItems: [] })
-                                  .then(newCart => handleAddAllToCart(newCart.id));
-                          }
-                      });
-              });
-          }
-      
+const handleAddAllToCart = (cartId) => {
+    const productCards = document.querySelectorAll('.card');
+    const cartItems = {
+        lineItems: Array.from(productCards).map(card => ({
+            quantity: 1,
+            productId: parseInt(card.getAttribute('data-entity-id'), 10)
+        }))
+    };
+    addCartItem('/api/storefront/carts/', cartId, cartItems)
+        .then(() => alert('All products have been added to your cart!'));
+};
+
+if (addAllToCartButton) {
+    addAllToCartButton.addEventListener('click', () => {
+        getCart('/api/storefront/carts')
+            .then(carts => {
+                if (carts.length > 0) {
+                    handleAddAllToCart(carts[0].id);
+                } else {
+                    const cartItems = {
+                        lineItems: {
+                            physicalItems: []
+                        }
+                    };
+                    createCart('/api/storefront/carts', cartItems)
+                        .then(newCart => {
+                            if (newCart && newCart.id) {
+                                handleAddAllToCart(newCart.id);
+                            } else {
+                                console.error('Error creating cart:', newCart);
+                            }
+                        })
+                        .catch(error => {
+                            console.error('Error creating cart:', error);
+                        });
+                }
+            });
+    });
+}
+
+
+
+
+
           const deleteAllFromCartButton = document.getElementById('deleteAllFromCart');
       
           if (deleteAllFromCartButton) {
             deleteAllFromCartButton.addEventListener('click', function() {
                 getCart('/api/storefront/carts?include=lineItems.digitalItems.options,lineItems.physicalItems.options')
-  .then(cartData => {
-      console.log('Cart ID:', cartData[0].id);
-      console.log('Physical Items:', cartData[0].lineItems.physicalItems);
-      if (cartData.length > 0) {
-          const cartId = cartData[0].id;
-          const physicalItems = cartData[0].lineItems.physicalItems;
-          const itemIds = physicalItems.map(item => {
-              console.log('Item ID:', item.id);
-              return item.id;
-          });
-          itemIds.forEach(itemId => {
-              deleteCartItem('/api/storefront/carts/', cartId, itemId);
-          });
-          alert('All items have been removed from your cart!');
-      }
-  })
-  .catch(error => {
-      console.error('Error removing items from cart:', error);
-  });
-            });
-        }
+                    .then(cartData => {
+                        console.log('Cart ID:', cartData[0].id);
+                        console.log('Physical Items:', cartData[0].lineItems.physicalItems);
+                        if (cartData.length > 0) {
+                            const cartId = cartData[0].id;
+                            const physicalItems = cartData[0].lineItems.physicalItems;
+                            const itemIds = physicalItems.map(item => {
+                                console.log('Item ID:', item.id);
+                                return item.id;
+                            });
+                            itemIds.forEach(itemId => {
+                                deleteCartItem('/api/storefront/carts/', cartId, itemId);
+                            });
+                            alert('All items have been removed from your cart!');
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error removing items from cart:', error);
+                    });
+                                });
+                            }
 
 
 
