@@ -185,48 +185,49 @@ export default class Category extends CatalogPage {
 
 
 
-          
           const addAllToCartButton = document.getElementById('addAllToCart');
 
-const handleAddAllToCart = (cartId) => {
-    const productCards = document.querySelectorAll('.card');
-    const cartItems = {
-        lineItems: Array.from(productCards).map(card => ({
-            quantity: 1,
-            productId: parseInt(card.getAttribute('data-entity-id'), 10)
-        }))
-    };
-    addCartItem('/api/storefront/carts/', cartId, cartItems)
-        .then(() => alert('All products have been added to your cart!'));
-};
-
-if (addAllToCartButton) {
-    addAllToCartButton.addEventListener('click', () => {
-        getCart('/api/storefront/carts')
-            .then(carts => {
-                if (carts.length > 0) {
-                    handleAddAllToCart(carts[0].id);
-                } else {
-                    const cartItems = {
-                        lineItems: {
-                            physicalItems: []
-                        }
-                    };
-                    createCart('/api/storefront/carts', cartItems)
-                        .then(newCart => {
-                            if (newCart && newCart.id) {
-                                handleAddAllToCart(newCart.id);
-                            } else {
-                                console.error('Error creating cart:', newCart);
-                            }
-                        })
-                        .catch(error => {
-                            console.error('Error creating cart:', error);
-                        });
-                }
-            });
-    });
-}
+          const handleAddAllToCart = (cartId) => {
+              const productCards = document.querySelectorAll('.card');
+              const cartItems = {
+                  lineItems: Array.from(productCards).map(card => ({
+                      quantity: 1,
+                      productId: parseInt(card.getAttribute('data-entity-id'), 10)
+                  }))
+              };
+              addCartItem('/api/storefront/carts/', cartId, cartItems)
+                  .then(() => alert('All products have been added to your cart!'))
+                  .catch(error => console.error('Error adding items to cart:', error));
+          };
+            
+          const createNewCartWithItems = () => {
+              const productCards = document.querySelectorAll('.card');
+              const cartItems = {
+                  lineItems: Array.from(productCards).map(card => ({
+                      quantity: 1,
+                      productId: parseInt(card.getAttribute('data-entity-id'), 10)
+                  }))
+              };
+              createCart('/api/storefront/carts', cartItems)
+                  .then(() => alert('All products have been added to your new cart!'))
+                  .catch(error => console.error('Error creating cart:', error));
+          };
+            
+          if (addAllToCartButton) {
+              addAllToCartButton.addEventListener('click', () => {
+                  getCart('/api/storefront/carts')
+                      .then(carts => {
+                          if (carts.length > 0) {
+                              handleAddAllToCart(carts[0].id);
+                          } else {
+                              createNewCartWithItems();
+                          }
+                      })
+                      .catch(error => {
+                          console.error('Error fetching cart:', error);
+                      });
+              });
+          }
 
 
 
