@@ -29,53 +29,6 @@ export default class Category extends CatalogPage {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     onReady() {
 
         this.arrangeFocusOnSortBy();
@@ -98,10 +51,6 @@ export default class Category extends CatalogPage {
         this.ariaNotifyNoProducts();
 
 
-
-
-
-
         // CREATE a cart - helper function
         function createCart(route, cartItems) {
             return fetch(route, {
@@ -117,11 +66,6 @@ export default class Category extends CatalogPage {
             .catch(error => console.error(error));
           };
 
-
-
-
-
-
           // GET a cart - helper function
           function getCart(route) {
             return fetch(route, {
@@ -136,10 +80,6 @@ export default class Category extends CatalogPage {
             .catch(error => console.error(error));
         }
         
-
-
-
-
           // ADD A CART ITEM - helper function
           function addCartItem(routeStart, cartId, cartItems) {
             var route = routeStart + cartId + '/items';
@@ -156,10 +96,6 @@ export default class Category extends CatalogPage {
             .catch(error => console.error(error));
           };
 
-
-
-
-
             // DELETE A CART ITEM - helper function
             function deleteCartItem(routeStart, cartId, itemId) {
                 var route = routeStart + cartId + '/items/' + itemId;
@@ -174,13 +110,6 @@ export default class Category extends CatalogPage {
                 .then(result => console.log(result))
                 .catch(error => console.error(error));
             };
-
-
-
-
-
-
-
 
 
           const addAllToCartButton = document.getElementById('addAllToCart');
