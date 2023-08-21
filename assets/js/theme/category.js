@@ -166,7 +166,8 @@ export default class Category extends CatalogPage {
                 .then(cartData => {
                     if (cartData.length > 0) {
                         const cartId = cartData[0].id;
-                        const itemIds = cartData[0].lineItems.physicalItems.map(item => item.id);
+                        const physicalItems = cartData[0].lineItems.physicalItems;
+                        const itemIds = physicalItems.map(item => item.id);
     
                         itemIds.forEach(itemId => {
                             deleteCartItem('/api/storefront/carts/', cartId, itemId);
@@ -177,76 +178,92 @@ export default class Category extends CatalogPage {
                 });
             });
         }
+
+
+
+        function getCart(route) {
+            return fetch(route, {
+                method: "GET",
+                credentials: "same-origin"
+            })
+            .then(response => response.json())
+            .then(result => result) // Return the cart data
+            .catch(error => console.error(error));
+        }
+        
+        function deleteCartItem(routeStart, cartId, itemId) {
+            const route = routeStart + cartId + '/items/' + itemId;
+            return fetch(route, {
+                method: "DELETE",
+                credentials: "same-origin",
+                headers: {
+                    "Content-Type": "application/json"
+                }
+            })
+            .then(response => response.json())
+            .then(result => console.log(result)) // Log the server response
+            .catch(error => console.error(error));
+        }
+
+
+
+
+
+
+
+
+
+
+
+
     }
     
-    function getCart(route) {
-        return fetch(route, {
-            method: "GET",
-            credentials: "same-origin"
-        })
-        .then(response => response.json())
-        .then(result => result) // Return the cart data
-        .catch(error => console.error(error));
-    }
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     
-    function deleteCartItem(routeStart, cartId, itemId) {
-        const route = routeStart + cartId + '/items/' + itemId;
-        return fetch(route, {
-            method: "DELETE",
-            credentials: "same-origin",
-            headers: {
-                "Content-Type": "application/json"
-            }
-        })
-        .then(response => response.json())
-        .then(result => console.log(result)) // Log the server response
-        .catch(error => console.error(error));
-    }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    }
 
 
     
