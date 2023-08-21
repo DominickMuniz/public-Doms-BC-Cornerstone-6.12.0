@@ -197,17 +197,8 @@ function deleteCartItem(routeStart, cartId, itemId) {
                   }))
               };
               addCartItem('/api/storefront/carts/', cartId, cartItems)
-              .then(() => {
-                alert('All products have been added to your cart!');
-                // Trigger the cart-quantity-update event
-                getCart('/api/storefront/carts?include=lineItems.digitalItems.options,lineItems.physicalItems.options')
-                    .then(cartData => {
-                        const cartQuantity = cartData[0].lineItems.physicalItems.length;
-                        $('body').trigger('cart-quantity-update', cartQuantity);
-                    })
-                    .catch(error => console.error('Error fetching cart:', error));
-            })
-            .catch(error => console.error('Error adding items to cart:', error));
+                .then(() => alert('All products have been added to your cart!'))
+                  .catch(error => console.error('Error adding items to cart:', error));
           };
             
           const createNewCartWithItems = () => {
