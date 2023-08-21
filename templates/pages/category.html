@@ -50,9 +50,22 @@ category:
     <div class="page-content" id="product-listing-container">
 
 
+        
+        {{#if customer}}
+        <div class="customer-banner">
+            <h2>Welcome, {{customer.first_name}} {{customer.last_name}}!</h2>
+            <p>Email: {{customer.email}}</p>
+            <p>Phone: {{customer.phone}}</p>
+        </div>
+        {{/if}}
+        
+
+
+
+
         <div class="add-all-to-cart-container">
             <button id="addAllToCart" class="button button--primary">Add All To Cart</button>
-            
+
             <button id="deleteAllFromCart">Delete All Items from Cart</button>
 
 

@@ -144,3 +144,34 @@
     border: none;
     cursor: pointer;
 }
+
+
+
+
+
+
+// Custom CSS 
+// -----------------------------------------------------------------------------
+//
+// 1. Style the Logged-in Customer info container on category pages. 
+//
+// -----------------------------------------------------------------------------
+
+
+.customer-banner {
+    background-color: #f9f9f9;
+    padding: 20px;
+    border: 1px solid #eaeaea;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.customer-banner h2 {
+    font-size: 24px;
+    margin-bottom: 10px;
+}
+
+.customer-banner p {
+    font-size: 16px;
+    margin-bottom: 5px;
+}
