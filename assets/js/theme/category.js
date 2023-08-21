@@ -27,6 +27,52 @@ export default class Category extends CatalogPage {
         $('a.navList-action').on('click', () => this.setLiveRegionAttributes($('span.price-filter-message'), 'status', 'assertive'));
     }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     onReady() {
         this.arrangeFocusOnSortBy();
     
@@ -46,6 +92,40 @@ export default class Category extends CatalogPage {
         $('a.reset-btn').on('click', () => this.setLiveRegionsAttributes($('span.reset-message'), 'status', 'polite'));
     
         this.ariaNotifyNoProducts();
+
+
+
+
+
+
+        // Create a cart helper function
+        function createCart(route, cartItems) {
+            return fetch(route, {
+              method: "POST",
+              credentials: "same-origin",
+              headers: {
+                "Content-Type": "application/json"
+              },
+              body: JSON.stringify(cartItems),
+            })
+            .then(response => response.json())
+            .then(result => console.log(result))
+            .catch(error => console.error(error));
+          };
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     
         const addAllToCartButton = document.getElementById('addAllToCart');
     
@@ -99,19 +179,7 @@ export default class Category extends CatalogPage {
             alert('All products have been added to your cart!');
         };
     
-        function createCart(route, cartItems) {
-            return fetch(route, {
-                method: "POST",
-                credentials: "same-origin",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify(cartItems),
-            })
-            .then(response => response.json())
-            .then(result => console.log(result))
-            .catch(error => console.error(error));
-        }
+   
     
         if (addAllToCartButton) {
             addAllToCartButton.addEventListener('click', () => {
