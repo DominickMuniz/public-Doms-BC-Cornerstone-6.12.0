@@ -78,22 +78,6 @@ export default class Category extends CatalogPage {
 
     onReady() {
 
-
-
-
-        const { customer } = this.context;
-            if (customer) {
-                console.log('Customer object:', { customer } );
-            }
-
-
-
-
-
-
-
-
-
         this.arrangeFocusOnSortBy();
     
         $('[data-button-type="add-cart"]').on('click', (e) => this.setLiveRegionAttributes($(e.currentTarget).next(), 'status', 'polite'));
@@ -139,7 +123,6 @@ export default class Category extends CatalogPage {
 
 
           // GET a cart - helper function
-
           function getCart(route) {
             return fetch(route, {
                 method: "GET",
@@ -157,7 +140,7 @@ export default class Category extends CatalogPage {
 
 
 
-// ADD A CART ITEM - helper function
+          // ADD A CART ITEM - helper function
           function addCartItem(routeStart, cartId, cartItems) {
             var route = routeStart + cartId + '/items';
             return fetch(route, {
@@ -177,20 +160,20 @@ export default class Category extends CatalogPage {
 
 
 
-// DELETE A CART ITEM - helper function
-function deleteCartItem(routeStart, cartId, itemId) {
-    var route = routeStart + cartId + '/items/' + itemId;
-    return fetch(route, {
-      method: "DELETE",
-      credentials: "same-origin",
-      headers: {
-        "Content-Type": "application/json",
-      }
-    })
-    .then(response => response.json())
-    .then(result => console.log(result))
-    .catch(error => console.error(error));
-  };
+            // DELETE A CART ITEM - helper function
+            function deleteCartItem(routeStart, cartId, itemId) {
+                var route = routeStart + cartId + '/items/' + itemId;
+                return fetch(route, {
+                method: "DELETE",
+                credentials: "same-origin",
+                headers: {
+                    "Content-Type": "application/json",
+                }
+                })
+                .then(response => response.json())
+                .then(result => console.log(result))
+                .catch(error => console.error(error));
+            };
 
 
 
@@ -310,45 +293,6 @@ function deleteCartItem(routeStart, cartId, itemId) {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     
 
 
@@ -406,26 +350,6 @@ function deleteCartItem(routeStart, cartId, itemId) {
             },
         });
     }
-
-
-
-
-
-   
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
