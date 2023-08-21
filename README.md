@@ -32,7 +32,7 @@ To view the customizations in action, visit [https://dominick-muniz-f3.mybigcomm
 
 ## Images 
 
-![Screenshot of the feature](screenshot1.png)
+![Screenshot of the features - Showing category page when the cart is empty. ](screenshot1.png)
 
 
-![Screenshot of the feature](screenshot2.png)
+![Screenshot of the feature - Showing category page when the cart is NOT empty, and that hovering on the product shows a second image. ](screenshot2.png)
