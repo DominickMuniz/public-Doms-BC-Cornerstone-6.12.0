@@ -122,13 +122,17 @@ export default class Category extends CatalogPage {
 
           function getCart(route) {
             return fetch(route, {
-              method: "GET",
-              credentials: "same-origin"
+                method: "GET",
+                credentials: "same-origin"
             })
             .then(response => response.json())
-            .then(result => console.log(result))
+            .then(result => {
+                console.log('Returned cart data:', result);
+                return result;
+            })
             .catch(error => console.error(error));
-          };
+        }
+        
 
 
 
