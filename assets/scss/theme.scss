@@ -126,7 +126,7 @@
 // Custom CSS 
 // -----------------------------------------------------------------------------
 //
-// 1. Style the 'Add All To Cart Button on the Category Page. 
+// 2. Style the 'Add All To Cart Button on the Category Page. 
 //
 // -----------------------------------------------------------------------------
 
@@ -147,7 +147,11 @@
     font-weight: bold;
     width: 300px;
     border-radius: 35px;
-    
+    transition: transform 0.3s; 
+}
+
+#addAllToCart:hover {
+    transform: scale(1.1);
 }
 
 
@@ -161,8 +165,10 @@
     font-weight: bold;
     width: 300px;
     border-radius: 35px;
-    
-    
+    transition: transform 0.3s;
+}
+#deleteAllFromCart:hover {
+    transform: scale(1.1);
 }
 
 
@@ -173,7 +179,7 @@
 // Custom CSS 
 // -----------------------------------------------------------------------------
 //
-// 1. Style the Logged-in Customer info container on category pages. 
+// 3. Style the Logged-in Customer info container on category pages. 
 //
 // -----------------------------------------------------------------------------
 
