@@ -112,88 +112,83 @@ export default class Category extends CatalogPage {
             };
 
 
-          const addAllToCartButton = document.getElementById('addAllToCart');
+            const addAllToCartButton = document.getElementById('addAllToCart');
 
-          const handleAddAllToCart = (cartId) => {
-            const productCards = document.querySelectorAll('.card');
-            const cartItems = {
-                lineItems: Array.from(productCards).map(card => ({
-                    quantity: 1,
-                    productId: parseInt(card.getAttribute('data-entity-id'), 10)
-                }))
-            };
-            addCartItem('/api/storefront/carts/', cartId, cartItems)
-                .then(() => {
+            const handleAddAllToCart = async (cartId) => {
+                const productCards = document.querySelectorAll('.card');
+                const cartItems = {
+                    lineItems: Array.from(productCards).map(card => ({
+                        quantity: 1,
+                        productId: parseInt(card.getAttribute('data-entity-id'), 10)
+                    }))
+                };
+                try {
+                    await addCartItem('/api/storefront/carts/', cartId, cartItems);
                     alert('All products have been added to your cart!');
                     location.reload(); // Refresh the page
-                })
-                .catch(error => console.error('Error adding items to cart:', error));
-        };
-            
-        const createNewCartWithItems = () => {
-            const productCards = document.querySelectorAll('.card');
-            const cartItems = {
-                lineItems: Array.from(productCards).map(card => ({
-                    quantity: 1,
-                    productId: parseInt(card.getAttribute('data-entity-id'), 10)
-                }))
+                } catch (error) {
+                    console.error('Error adding items to cart:', error);
+                }
             };
-            createCart('/api/storefront/carts', cartItems)
-                .then(() => {
+            
+            const createNewCartWithItems = async () => {
+                const productCards = document.querySelectorAll('.card');
+                const cartItems = {
+                    lineItems: Array.from(productCards).map(card => ({
+                        quantity: 1,
+                        productId: parseInt(card.getAttribute('data-entity-id'), 10)
+                    }))
+                };
+                try {
+                    await createCart('/api/storefront/carts', cartItems);
                     alert('All products have been added to your new cart!');
                     location.reload(); // Refresh the page
-                })
-                .catch(error => console.error('Error creating cart:', error));
-        };
+                } catch (error) {
+                    console.error('Error creating cart:', error);
+                }
+            };
             
-                if (addAllToCartButton) {
-                    addAllToCartButton.addEventListener('click', () => {
-                        getCart('/api/storefront/carts')
-                            .then(carts => {
-                                if (carts.length > 0) {
-                                    handleAddAllToCart(carts[0].id);
-                                } else {
-                                    createNewCartWithItems();
-                                }
-                            })
-                            .catch(error => {
-                                console.error('Error fetching cart:', error);
-                            });
-                    });
-                }
-
-
-
-
-
-                async function deleteAllItemsFromCart(cartId, itemIds) {
-                    for (const itemId of itemIds) {
-                        await deleteCartItem('/api/storefront/carts/', cartId, itemId);
+            if (addAllToCartButton) {
+                addAllToCartButton.addEventListener('click', async () => {
+                    try {
+                        const carts = await getCart('/api/storefront/carts');
+                        if (carts.length > 0) {
+                            await handleAddAllToCart(carts[0].id);
+                        } else {
+                            await createNewCartWithItems();
+                        }
+                    } catch (error) {
+                        console.error('Error fetching cart:', error);
                     }
-                    location.reload(); // Refresh the page
-                }
-        
-        const deleteAllFromCartButton = document.getElementById('deleteAllFromCart');
-        
-        if (deleteAllFromCartButton) {
-          deleteAllFromCartButton.addEventListener('click', async function() {
-            try {
-              const cartData = await getCart('/api/storefront/carts?include=lineItems.digitalItems.options,lineItems.physicalItems.options');
-              if (cartData.length > 0) {
-                const cartId = cartData[0].id;
-                const physicalItems = cartData[0].lineItems.physicalItems;
-                const itemIds = physicalItems.map(item => item.id);
-                
-                // Delete all items from the cart sequentially
-                await deleteAllItemsFromCart(cartId, itemIds);
-                
-                alert('All items have been removed from your cart!');
-              }
-            } catch (error) {
-              console.error('Error removing items from cart:', error);
+                });
             }
-          });
-        }
+            
+            async function deleteAllItemsFromCart(cartId, itemIds) {
+                for (const itemId of itemIds) {
+                    await deleteCartItem('/api/storefront/carts/', cartId, itemId);
+                }
+                location.reload(); // Refresh the page
+            }
+            
+            const deleteAllFromCartButton = document.getElementById('deleteAllFromCart');
+            
+            if (deleteAllFromCartButton) {
+                deleteAllFromCartButton.addEventListener('click', async () => {
+                    try {
+                        const cartData = await getCart('/api/storefront/carts?include=lineItems.digitalItems.options,lineItems.physicalItems.options');
+                        if (cartData.length > 0) {
+                            const cartId = cartData[0].id;
+                            const physicalItems = cartData[0].lineItems.physicalItems;
+                            const itemIds = physicalItems.map(item => item.id);
+                            await deleteAllItemsFromCart(cartId, itemIds);
+                            alert('All items have been removed from your cart!');
+                        }
+                    } catch (error) {
+                        console.error('Error removing items from cart:', error);
+                    }
+                });
+            }
+            
     }
     
   
