@@ -73,7 +73,27 @@ export default class Category extends CatalogPage {
 
 
 
+
+
+
     onReady() {
+
+
+
+
+        const { customer } = this.context;
+            if (customer) {
+                console.log('Customer object:', customer);
+            }
+
+
+
+
+
+
+
+
+
         this.arrangeFocusOnSortBy();
     
         $('[data-button-type="add-cart"]').on('click', (e) => this.setLiveRegionAttributes($(e.currentTarget).next(), 'status', 'polite'));
