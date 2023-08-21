@@ -158,68 +158,50 @@ export default class Category extends CatalogPage {
 
 
 
+        const deleteAllFromCartButton = document.getElementById('deleteAllFromCart');
 
-
-
-        // Wait for the HTML document to be fully loaded before running the script
-document.addEventListener('DOMContentLoaded', function() {
-    // Get the 'Delete All from Cart' button element by its ID
-    const deleteAllFromCartButton = document.getElementById('deleteAllFromCart');
-
-    // Check if the button element exists on the page
-    if (deleteAllFromCartButton) {
-        // Add a click event listener to the button
-        deleteAllFromCartButton.addEventListener('click', function() {
-            // Call the 'getCart' function to retrieve the cart data
-            getCart('/api/storefront/carts?include=lineItems.digitalItems.options,lineItems.physicalItems.options')
-            .then(cartData => {
-                // Check if there are any carts
-                if (cartData.length > 0) {
-                    // Get the cart ID from the first cart in the list
-                    const cartId = cartData[0].id;
-                    // Get the item IDs of all physical items in the cart
-                    const itemIds = cartData[0].lineItems.physicalItems.map(item => item.id);
-
-                    // Loop through all item IDs
-                    itemIds.forEach(itemId => {
-                        // Call the 'deleteCartItem' function to delete each item from the cart
-                        deleteCartItem('/api/storefront/carts/', cartId, itemId);
-                    });
-
-                    // Alert the user that all items have been removed from the cart
-                    alert('All items have been removed from your cart!');
-                }
+        if (deleteAllFromCartButton) {
+            deleteAllFromCartButton.addEventListener('click', function() {
+                getCart('/api/storefront/carts?include=lineItems.digitalItems.options,lineItems.physicalItems.options')
+                .then(cartData => {
+                    if (cartData.length > 0) {
+                        const cartId = cartData[0].id;
+                        const itemIds = cartData[0].lineItems.physicalItems.map(item => item.id);
+    
+                        itemIds.forEach(itemId => {
+                            deleteCartItem('/api/storefront/carts/', cartId, itemId);
+                        });
+    
+                        alert('All items have been removed from your cart!');
+                    }
+                });
             });
-        });
-    }
-});
-
-// Function to get the cart data
-function getCart(route) {
-    return fetch(route, {
-        method: "GET",
-        credentials: "same-origin"
-    })
-    .then(response => response.json())
-    .then(result => result) // Return the cart data
-    .catch(error => console.error(error));
-}
-
-// Function to delete an item from the cart
-function deleteCartItem(routeStart, cartId, itemId) {
-    // Construct the API route for deleting a cart item
-    var route = routeStart + cartId + '/items/' + itemId;
-    return fetch(route, {
-        method: "DELETE",
-        credentials: "same-origin",
-        headers: {
-            "Content-Type": "application/json"
         }
-    })
-    .then(response => response.json())
-    .then(result => console.log(result)) // Log the server response
-    .catch(error => console.error(error));
-}
+    }
+    
+    function getCart(route) {
+        return fetch(route, {
+            method: "GET",
+            credentials: "same-origin"
+        })
+        .then(response => response.json())
+        .then(result => result) // Return the cart data
+        .catch(error => console.error(error));
+    }
+    
+    function deleteCartItem(routeStart, cartId, itemId) {
+        const route = routeStart + cartId + '/items/' + itemId;
+        return fetch(route, {
+            method: "DELETE",
+            credentials: "same-origin",
+            headers: {
+                "Content-Type": "application/json"
+            }
+        })
+        .then(response => response.json())
+        .then(result => console.log(result)) // Log the server response
+        .catch(error => console.error(error));
+    }
 
 
 
