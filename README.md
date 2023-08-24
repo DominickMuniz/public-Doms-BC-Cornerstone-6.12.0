@@ -37,12 +37,12 @@ To view the customizations in action, visit [https://dominick-muniz-f3.mybigcomm
 
 ## Images 
 
-### Photo 1/2: Screenshot of the features - Showing category page when the cart is empty. 
+## Photo 1/2: Screenshot of the features - Showing category page when the cart is empty. 
 ![Screenshot of the features - Showing category page when the cart is empty. ](screenshot1.png)
 
 &nbsp;
 &nbsp;
 &nbsp;
 
-### Photo 2/2: Screenshot of the features - Showing category page when the cart is NOT empty, and that hovering on the product shows a second image.
+## Photo 2/2: Screenshot of the features - Showing category page when the cart is NOT empty, and that hovering on the product shows a second image.
 ![Screenshot of the feature - Showing category page when the cart is NOT empty, and that hovering on the product shows a second image. ](screenshot2.png)
