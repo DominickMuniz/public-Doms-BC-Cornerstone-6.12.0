@@ -1,4 +1,4 @@
-## BigCommerce Custom Features
+# BigCommerce Custom Features
 ### About:
 
 ### 1. Special Item Product and Category
