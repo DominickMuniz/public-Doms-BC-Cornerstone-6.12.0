@@ -1,5 +1,5 @@
 # BigCommerce Custom Features
-### About:
+### About: Listed below are various customizations I added to the default BigCommerce theme. 
 
 ### 1. Special Item Product and Category
 
