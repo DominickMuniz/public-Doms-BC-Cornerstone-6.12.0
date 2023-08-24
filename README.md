@@ -25,6 +25,11 @@ The "Add All To Cart" and "Delete All Items from Cart" buttons are implemented u
 
 When a customer is logged in, a banner is displayed at the top of any category page. The banner includes the customer's name, email, and phone number, providing a personalized experience for the logged-in user.
 
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;
+
 ## Getting Started
 
 To view the customizations in action, visit [https://dominick-muniz-f3.mybigcommerce.com/special-items/]. Use this code to enter the website [Preview Code: mfab8jtwqz] You will need to create a customer account to see the customer banner feature.
@@ -35,6 +40,9 @@ To view the customizations in action, visit [https://dominick-muniz-f3.mybigcomm
 ### Photo 1/2: Screenshot of the features - Showing category page when the cart is empty. 
 ![Screenshot of the features - Showing category page when the cart is empty. ](screenshot1.png)
 
+&nbsp;
+&nbsp;
+&nbsp;
 
 ### Photo 2/2: Screenshot of the features - Showing category page when the cart is NOT empty, and that hovering on the product shows a second image.
 ![Screenshot of the feature - Showing category page when the cart is NOT empty, and that hovering on the product shows a second image. ](screenshot2.png)
